@@ -4,6 +4,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.junit.Test;
 
 /**
@@ -86,6 +89,52 @@ public class DatetimeUtil {
 		return hundredDayBefore;
 	}
 
+	/**
+	 * 获取该月最后一天
+	 * 
+	 * @param date
+	 * @return
+	 */
+	public static String getLastDayOfMonth( String date ) {
+		DateTimeFormatter formatter = DateTimeFormat.forPattern( "yyyyMMdd" );
+		DateTime dateTime = DateTime.parse( date.replaceAll( "-", "" ), formatter ).dayOfMonth().withMaximumValue();
+		return dateTime.toString( formatter );
+
+	}
+
+	/**
+	 * 获取周一
+	 * 
+	 * @param date yyyy-MM-dd 或者 yyyyMMdd
+	 * @return
+	 */
+	public static String getMondayOfWeek( String date ) {
+		DateTimeFormatter formatter = DateTimeFormat.forPattern( "yyyyMMdd" );
+		DateTime dateTime = DateTime.parse( date.replaceAll( "-", "" ), formatter ).dayOfWeek().withMinimumValue();
+		return dateTime.toString( formatter );
+
+	}
+
+
+	/**
+	 * 获取周日
+	 * 
+	 * @param date yyyy-MM-dd 或者 yyyyMMdd
+	 * @return
+	 */
+	public static String getSundayOfWeek( String date ) {
+		DateTimeFormatter formatter = DateTimeFormat.forPattern( "yyyyMMdd" );
+		DateTime dateTime = DateTime.parse( date.replaceAll( "-", "" ), formatter ).dayOfWeek().withMaximumValue();
+		return dateTime.toString( formatter );
+
+	}
+
+	@Test
+	public void testGetSundayOfWeek() {
+		String dateString = "20170206";
+		System.out.println( getSundayOfWeek( dateString ) );
+		System.out.println( getLastDayOfMonth( dateString ) );
+	}
 	@Test
 	public void testgetLastDayofNum() {
 		String dateString = "2017-03-21";
