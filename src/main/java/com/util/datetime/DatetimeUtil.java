@@ -1,10 +1,15 @@
 package com.util.datetime;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import org.joda.time.DateTime;
+import org.joda.time.Days;
+import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.junit.Test;
@@ -90,6 +95,30 @@ public class DatetimeUtil {
 	}
 
 	/**
+	 * 获取两个日期之间差值
+	 * 
+	 * @param sstartDate yyyyMMdd
+	 * @param sendDate yyyyMMdd
+	 * @return 两个日期间相差天数
+	 * @throws ParseException
+	 */
+	public static int getBetweenDays( String startDate, String endDate ) {
+
+		SimpleDateFormat sdf = new SimpleDateFormat( "yyyyMMdd" );
+		LocalDate startLocalDate = null;
+		LocalDate endLocalDate = null;
+		try {
+			startLocalDate = new LocalDate( sdf.parse( startDate ) );
+			endLocalDate = new LocalDate( sdf.parse( endDate ) );
+		}
+		catch( ParseException e ) {
+			e.getMessage();
+		}
+
+		return Days.daysBetween( startLocalDate, endLocalDate ).getDays();
+	}
+
+	/**
 	 * 获取该月最后一天
 	 * 
 	 * @param date
@@ -127,6 +156,55 @@ public class DatetimeUtil {
 		DateTime dateTime = DateTime.parse( date.replaceAll( "-", "" ), formatter ).dayOfWeek().withMaximumValue();
 		return dateTime.toString( formatter );
 
+	}
+
+	/**
+	 * 转换日期
+	 * 
+	 * @param Time yyyy-MM-dd or yyyyMMdd
+	 * @return MMdd(4.1 5.12)
+	 */
+	public static String transferTime( String Time ) {
+		Time = Time.replaceAll( "-", "" );
+		String transfer = "";
+		StringBuilder sBuilder = new StringBuilder();
+		String month = Time.substring( 4, 6 );
+		String day = Time.substring( 6 );
+		if( month.startsWith( "0" ) ) {
+			sBuilder.append( month.substring( 1 ) );
+		}
+		else {
+			sBuilder.append( month );
+		}
+		sBuilder.append( "." );
+		if( day.startsWith( "0" ) ) {
+			sBuilder.append( day.substring( 1 ) );
+		}
+		else {
+			sBuilder.append( day );
+		}
+		transfer = sBuilder.toString();
+
+		return transfer;
+	}
+
+	/**
+	 * 获取时间段内的日期列表
+	 * 
+	 * @param beginTime
+	 * @param endTime
+	 * @param format
+	 * @return
+	 */
+	public static List<String> getLabelForDay( String beginTime, String endTime, String format ) {
+		DateTime dateTimeStart = new DateTime( beginTime );
+		DateTime dateTimeEnd = new DateTime( endTime );
+		List<String> list = new ArrayList<>();
+		while( !dateTimeStart.isAfter( dateTimeEnd ) ) {
+			list.add( dateTimeStart.toString( format ) );
+			dateTimeStart = dateTimeStart.plusDays( 1 );
+		}
+		return list;
 	}
 
 	@Test
