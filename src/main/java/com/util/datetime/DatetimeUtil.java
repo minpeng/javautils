@@ -207,6 +207,44 @@ public class DatetimeUtil {
 		return list;
 	}
 
+	/**
+	 * 转换日期
+	 * 
+	 * @param time
+	 * @return 00:00:00
+	 */
+	public static String formatTime( int time ) {
+		String timeStr = "00:00:00";
+		int hour = 0;
+		int minute = 0;
+		int second = 0;
+		if( time <= 0 ) {
+			return timeStr;
+		}
+
+		minute = time / 60;
+		if( minute < 60 ) {
+			second = time % 60;
+			timeStr = "00" + ":" + unitFormat( minute ) + ":" + unitFormat( second );
+		}
+		else {
+			hour = minute / 60;
+			minute = minute % 60;
+			second = time - hour * 3600 - minute * 60;
+			timeStr = unitFormat( hour ) + ":" + unitFormat( minute ) + ":" + unitFormat( second );
+		}
+
+		return timeStr;
+	}
+
+	public static String unitFormat( int i ) {
+		String retStr = null;
+		if( i >= 0 && i < 10 )
+			retStr = "0" + String.valueOf( i );
+		else
+			retStr = "" + i;
+		return retStr;
+	}
 	@Test
 	public void testGetSundayOfWeek() {
 		String dateString = "20170206";
