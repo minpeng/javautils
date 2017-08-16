@@ -66,5 +66,24 @@ public class StringUtil {
 		return retval;
 	}
 	
+	/**
+	 * 验证是不是Int validate a int string
+	 * 
+	 * @param str the Integer string.
+	 * @return true if the str is invalid otherwise false.
+	 */
+	public static boolean validateInt( String str ) {
+		if( str == null || str.trim().equals( "" ) )
+			return false;
+
+		char c;
+		for( int i = 0, l = str.length(); i < l; i++ ) {
+			c = str.charAt( i );
+			if( !((c >= '0') && (c <= '9')) )
+				return false;
+		}
+
+		return true;
+	}
 
 }

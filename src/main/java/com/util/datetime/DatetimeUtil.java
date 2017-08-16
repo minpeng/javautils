@@ -245,6 +245,61 @@ public class DatetimeUtil {
 			retStr = "" + i;
 		return retStr;
 	}
+
+	/**
+	 * 获取该日期的季度
+	 * 
+	 * @param today
+	 * @return
+	 */
+	public static int getCurQuarter( String today ) {
+		int curQuarter;
+		int month = getMonthOfDate( today );
+		switch( month ) {
+			case 1:
+			case 2:
+			case 3:
+				curQuarter = 1;
+				break;
+
+			case 4:
+			case 5:
+			case 6:
+				curQuarter = 2;
+				break;
+
+			case 7:
+			case 8:
+			case 9:
+				curQuarter = 3;
+				break;
+
+			case 10:
+			case 11:
+			case 12:
+				curQuarter = 4;
+				break;
+
+			default:
+				curQuarter = 1;
+				break;
+		}
+		return curQuarter;
+	}
+
+	/**
+	 * 获取改日期的月份
+	 * 
+	 * @param dateString
+	 * @return
+	 */
+	public static int getMonthOfDate( String dateString ) {
+		DateTimeFormatter formatter = DateTimeFormat.forPattern( "yyyyMMdd" );
+		LocalDate localDate = formatter.parseLocalDate( dateString.replace( "-", "" ) );
+		int month = localDate.getMonthOfYear();
+		return month;
+	}
+
 	@Test
 	public void testGetSundayOfWeek() {
 		String dateString = "20170206";
