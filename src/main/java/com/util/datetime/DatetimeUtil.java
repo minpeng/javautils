@@ -300,6 +300,45 @@ public class DatetimeUtil {
 		return month;
 	}
 
+	/**
+	 * 格式:yyyyMMdd
+	 * 
+	 * @return
+	 */
+	public static String getToday() {
+		SimpleDateFormat sdf = new SimpleDateFormat( "yyyyMMdd" );
+		String str = sdf.format( new Date() );
+		return str;
+	}
+
+	public static String getToday( String format ) {
+		SimpleDateFormat sdf = new SimpleDateFormat( format );
+		String str = sdf.format( new Date() );
+		return str;
+	}
+
+	/**
+	 * 格式:yyyyMMdd
+	 * 
+	 * @return
+	 */
+	public static String getYesterday() {
+		SimpleDateFormat sdf = new SimpleDateFormat( "yyyyMMdd" );
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime( new Date() );
+		calendar.add( Calendar.DAY_OF_YEAR, -1 );
+		String str = sdf.format( calendar.getTime() );
+		return str;
+	}
+
+	public static String getYesterday( String format ) {
+		SimpleDateFormat sdf = new SimpleDateFormat( format );
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime( new Date() );
+		calendar.add( Calendar.DAY_OF_YEAR, -1 );
+		String str = sdf.format( calendar.getTime() );
+		return str;
+	}
 	@Test
 	public void testGetSundayOfWeek() {
 		String dateString = "20170206";
